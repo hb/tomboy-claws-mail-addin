@@ -1,0 +1,21 @@
+<Addin id="ClawsMailAddin"
+    namespace="Tomboy"
+    name="Claws Mail Integration"
+    author="Holger Berndt"
+    description="Allows you to drag an email from Claws Mail into a Tomboy note."
+    category="Desktop Integration"
+    defaultEnabled="false"
+    version="0.1">
+
+    <Runtime>
+        <Import assembly="ClawsMail.dll" />
+    </Runtime>
+
+    <Dependencies>
+        <Addin id="Tomboy" version="0.10" />
+    </Dependencies>
+
+    <Extension path="/Tomboy/NoteAddins">
+        <NoteAddin type="Tomboy.ClawsMail.ClawsMailNoteAddin" />
+    </Extension>
+</Addin>
