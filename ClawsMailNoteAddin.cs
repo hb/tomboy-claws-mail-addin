@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 using Mono.Unix;
 using Mono.Unix.Native;
@@ -40,10 +41,39 @@ namespace Tomboy.ClawsMail
             Image = MailIcon;
         }     
 
+		public string EmailUri
+		{
+			get {
+				return (string) Attributes["uri"];
+			}
+			set {
+				Attributes["uri"] = value;
+			}
+		}
+        
         protected override bool OnActivate (NoteEditor editor,
                                             Gtk.TextIter start,
                                             Gtk.TextIter end)
         {
+			Process p = new Process();
+			p.StartInfo.FileName = "claws-mail";
+			p.StartInfo.Arguments = "--select '" + EmailUri + "'";
+			p.StartInfo.UseShellExecute = false;
+
+			try {
+				p.Start();
+			} catch(Exception ee) {
+				string message = String.Format("Error running Claws Mail: {0}", ee.Message);
+				Logger.Error(message);
+				HIGMessageDialog dialog = new HIGMessageDialog(editor.Toplevel as Gtk.Window,
+				                              Gtk.DialogFlags.DestroyWithParent,
+				                              Gtk.MessageType.Info,
+				                              Gtk.ButtonsType.Ok,
+				                              Catalog.GetString ("Cannot open email"),
+				                              message);
+				dialog.Run();
+				dialog.Destroy();
+			}
             return true;
         }        
     }
@@ -110,17 +140,6 @@ namespace Tomboy.ClawsMail
                 stop_emission = true;
                 HandleDrops(args.X, args.Y);
             }
-
-                //if(uri_list_string != null)
-                  //Logger.Info("got uri_list_string");
-                //if(cm_path_string != null)
-                  //Logger.Info("got cm_path_string");
-
-                //if((uri_list_string != null) && (cm_path_string != null)) {
-                  //stop_emission = InsertLinks(uri_list_string, cm_path_string);
-                //}
-            
-
             
             if(stop_emission) 
                 g_signal_stop_emission_by_name(Window.Editor.Handle, "drag-data-received");
@@ -138,7 +157,6 @@ namespace Tomboy.ClawsMail
                 Logger.Error("Error parsing drop input");
                 return;
             }
-            
             
             string cm_path_folderitem = cm_path_list[0];
             bool first = true;
@@ -193,6 +211,8 @@ namespace Tomboy.ClawsMail
             
             EmailLink link_tag;
             link_tag = (EmailLink) Note.TagTable.CreateDynamicTag("link:cm-mail");
+            link_tag.EmailUri = cm_path_folderitem + "/<" + msgid + ">";
+            
             cursor = Buffer.GetIterAtMark(Buffer.InsertMark);
             start_offset = cursor.Offset;
             Buffer.Insert(ref cursor, subject);
