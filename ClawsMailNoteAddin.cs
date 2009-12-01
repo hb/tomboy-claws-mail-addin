@@ -51,9 +51,9 @@ namespace Tomboy.ClawsMail
 			}
 		}
         
-        protected override bool OnActivate (NoteEditor editor,
-                                            Gtk.TextIter start,
-                                            Gtk.TextIter end)
+        protected override bool OnActivate(NoteEditor editor,
+                                           Gtk.TextIter start,
+                                           Gtk.TextIter end)
         {
 			Process p = new Process();
 			p.StartInfo.FileName = "claws-mail";
@@ -69,7 +69,7 @@ namespace Tomboy.ClawsMail
 				                              Gtk.DialogFlags.DestroyWithParent,
 				                              Gtk.MessageType.Info,
 				                              Gtk.ButtonsType.Ok,
-				                              Catalog.GetString ("Cannot open email"),
+				                              Catalog.GetString("Cannot open email"),
 				                              message);
 				dialog.Run();
 				dialog.Destroy();
@@ -114,7 +114,7 @@ namespace Tomboy.ClawsMail
         }
 
         [DllImport("libgobject-2.0.so.0")]
-        static extern void g_signal_stop_emission_by_name (IntPtr raw, string name);
+        static extern void g_signal_stop_emission_by_name(IntPtr raw, string name);
 
         [GLib.ConnectBefore]
         void OnDragDataReceived(object sender, Gtk.DragDataReceivedArgs args)
