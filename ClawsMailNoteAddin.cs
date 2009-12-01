@@ -1,4 +1,13 @@
-// Heavily influenced by the Evolution addin
+// Claws Mail integration for Tomboy
+//
+// Copyright 2009 Holger Berndt <berndth@gmx.de>
+//
+// This file is licensed LGPL version 2.1, see COPYING in this
+// source distribution.
+//
+// Heavily influenced by the Evolution addin, which is
+// copyrighted by the Tomboy team.
+
 using System;
 using System.Collections;
 using System.Collections.Generic;

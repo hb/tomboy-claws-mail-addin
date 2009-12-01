@@ -1,0 +1,26 @@
+Claws Mail addin for Tomboy
+===========================
+
+This addin provides Claws Mail integration for Tomboy.
+When emails are dragged from the summary view in Claws Mail and dropped
+into a Tomboy note, an email link is created in the note. Clicking the
+link will open the note again in Claws Mail.
+
+To install the addin for a local user, type
+make && make install
+
+You will need the gmcs compiler, gmime-sharp and of course Tomboy
+for this to succeed. The addin only works with Claws Mail 3.7.4 or later.
+
+Then activate the addin in the Tomboy addin dialog,
+"Desktop Integration" section.
+
+To install system wide, just copy the file ClawsMail.dll to the system
+wide addin folder (e.g. /usr/lib/tomboy/addins)
+
+
+------------------------------------------------------------------------
+Copyright 2009 Holger Berndt <berndth@gmx.de>
+
+The addin is heavily influenced by the Evolution addin that is shipped
+with Tomboy copyrighted by the Tomboy team.
